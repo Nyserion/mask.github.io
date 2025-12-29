@@ -5455,6 +5455,12 @@
     const DATA = JSON.parse(document.getElementById('quiz-data').textContent);
     const Q = DATA.questions;
 
+    const IS_MOBILE = (function () {
+      const ua = navigator.userAgent || "";
+      const coarse = (window.matchMedia && window.matchMedia("(pointer:coarse)").matches) || false;
+      return coarse || /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
+    })();
+
     const today = new Date().toLocaleDateString("zh-CN", {
       year: "numeric",
       month: "2-digit",
@@ -5866,12 +5872,8 @@
 
       if (state.showAns) showAnswerBlock();
 
-      function isMobile() {
-        return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      }
-
       window.onkeydown = (e) => {
-        if (!isMobile()) {
+        if (!(IS_MOBILE)) {
           if (e.key === "Enter") {
             e.preventDefault();
             if (submitBtn.style.display !== "none") submitBtn.click();
